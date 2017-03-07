@@ -8,10 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
-var Rx_1 = require("rxjs/Rx");
+var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+var Rx_1 = require('rxjs/Rx');
 var ProposalService = (function () {
     function ProposalService(http) {
         this.http = http;
@@ -24,6 +23,11 @@ var ProposalService = (function () {
     };
     ProposalService.prototype.getProposal = function (id) {
         return this.http.get(this.proposalsUrl + "/" + id + '.json');
+    };
+    ProposalService.prototype.createProposal = function (proposal) {
+        var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this.http.post(this.proposalsUrl, JSON.stringify(proposal), { headers: headers }).map(function (res) { return res.json(); });
     };
     ProposalService.prototype.handleError = function (error) {
         // In a real world app, we might use a remote logging infrastructure
@@ -39,11 +43,11 @@ var ProposalService = (function () {
         console.error(errMsg);
         return Rx_1.Observable.throw(errMsg);
     };
+    ProposalService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], ProposalService);
     return ProposalService;
 }());
-ProposalService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], ProposalService);
 exports.ProposalService = ProposalService;
 //# sourceMappingURL=proposal.service.js.map
